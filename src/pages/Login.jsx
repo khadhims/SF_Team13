@@ -1,8 +1,8 @@
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button, Divider, IconButton, TextField } from "@mui/material";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from "../firebase-config";
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from "../firebase-config";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import GoogleIcon from "@mui/icons-material/Google";
@@ -18,10 +18,9 @@ export const Login = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleLogin = async (e) => {
-    // Handle login logic here
-    e.preventDefault(); // Prevent default form submission behavior
-    setErrorMessage(""); // Reset previous error message
+  const handleLogin = async () => {
+    // e.preventDefault(); 
+    setErrorMessage(""); 
 
     // Validasi input sebelum mengirim ke Firebase
     if (!email || !password) {
@@ -42,9 +41,8 @@ export const Login = () => {
   };
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
       console.log("User signed up with Google and data saved to Firestore.", user);

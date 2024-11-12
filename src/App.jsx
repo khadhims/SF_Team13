@@ -1,7 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, grey } from "@mui/material/colors";
 import { Login } from "./pages/Login";
-import Register from "./pages/Register";
 
 const theme = createTheme({
   palette: {
@@ -17,7 +16,6 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Register />
       <Login />
     </ThemeProvider>
   );

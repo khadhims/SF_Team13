@@ -2,11 +2,11 @@ import GoogleIcon from "@mui/icons-material/Google";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button, Divider, IconButton, TextField } from "@mui/material";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { Link } from 'react-router-dom';
-import { auth, db } from "../firebase-config";
+import { auth, db, googleProvider } from "../firebase-config";
 
 const Register = () => {
   // For Auth
@@ -86,17 +86,14 @@ const Register = () => {
   };
 
   const signUpWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
       // Save additional user data if needed
       await setDoc(doc(db, "users", user.uid), {
         fullname: user.displayName || "",
         email: user.email,
-        address: "",
-        contact: "",
       });
       console.log("User signed up with Google and data saved to Firestore.");
     } catch (error) {
@@ -120,6 +117,7 @@ const Register = () => {
         <TextField
             label="Nama Lengkap"
             variant="outlined"
+            value={fullname}
             fullWidth
             onChange={(e) => setFullname(e.target.value)}
           />
@@ -128,6 +126,7 @@ const Register = () => {
             label="Email"
             variant="outlined"
             fullWidth
+            value={email}
             error={!!errorMessage}
             helperText={errorMessage}
             onChange={(e) => {
@@ -140,6 +139,7 @@ const Register = () => {
             label="Password"
             type={showPassword ? "text" : "password"}
             variant="outlined"
+            value={password}
             fullWidth
             InputProps={{
               endAdornment: (
@@ -159,6 +159,7 @@ const Register = () => {
             label="Confirm Password"
             type={showPassword ? "text" : "password"}
             variant="outlined"
+            value={confirmPassword}
             fullWidth
             error={!!confirmPasswordError} // Show error if there is a confirm password error
             helperText={confirmPasswordError} // Show confirm password error message as helper text
