@@ -1,19 +1,21 @@
-import { Button, TextField, IconButton } from "@mui/material";
-import { useState } from "react";
+import GoogleIcon from "@mui/icons-material/Google";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { auth } from "../firebase-config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Button, Divider, IconButton, TextField } from "@mui/material";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase-config"; 
+import { useState } from "react";
+import { Link } from 'react-router-dom';
+import { auth, db } from "../firebase-config";
 
 const Register = () => {
   // For Auth
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [address, setAddress] = useState("");
-  const [contact, setContact] = useState(0);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
   // For Toggle visibility password
   const [showPassword, setShowPassword] = useState(false);
@@ -41,8 +43,6 @@ const Register = () => {
       await setDoc(doc(db, "users", user.uid), {
         fullname,
         email,
-        address,
-        contact,
       });
       console.log("User data saved successfully in Firestore.");
     } catch (error) {
@@ -52,11 +52,55 @@ const Register = () => {
 
   // Function to handle the whole sign-up process
   const handleSignUp = async () => {
+    setErrorMessage("");
+    setConfirmPasswordError("");
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Password tidak cocok");
+      return;
+    }
+
     try {
       const user = await signUpUser(); // Get the authenticated user
       await createUserData(user); // Save user data to Firestore
     } catch (error) {
-      console.log("Error during sign up process:", error.message);
+      if (error.message.includes("auth/email-already-in-use")) {
+        setErrorMessage("Email telah digunakan. Mohon gunakan email lain.");
+      } else {
+        setErrorMessage("Terjadi kesalahan selama proses pendaftaran. Mohon dicoba lagi.");
+      }
+      console.log("Terjadi kesalahan selama proses pendaftaran: ", error.message);
+    }
+  };
+
+  const handleConfirmPasswordChange = (e) => {
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    // Check if confirm password matches the original password
+    if (value !== password) {
+      setConfirmPasswordError("Passwords do not match");
+    } else {
+      setConfirmPasswordError(""); // Clear error if passwords match
+    }
+  };
+
+  const signUpWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Save additional user data if needed
+      await setDoc(doc(db, "users", user.uid), {
+        fullname: user.displayName || "",
+        email: user.email,
+        address: "",
+        contact: "",
+      });
+      console.log("User signed up with Google and data saved to Firestore.");
+    } catch (error) {
+      console.log("Error signing up with Google:", error.message);
     }
   };
 
@@ -79,24 +123,19 @@ const Register = () => {
             fullWidth
             onChange={(e) => setFullname(e.target.value)}
           />
-          <TextField
-            label="Nomor Handphone"
-            variant="outlined"
-            fullWidth
-            onChange={(e) => setContact(e.target.value)}
-          />
-          <TextField
-            label="Alamat Rumah"
-            variant="outlined"
-            fullWidth
-            onChange={(e) => setAddress(e.target.value)}
-          />
+      
           <TextField
             label="Email"
             variant="outlined"
             fullWidth
-            onChange={(e) => setEmail(e.target.value)}
+            error={!!errorMessage}
+            helperText={errorMessage}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              setErrorMessage("")
+            }}
           />
+
           <TextField
             label="Password"
             type={showPassword ? "text" : "password"}
@@ -115,6 +154,28 @@ const Register = () => {
             }}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          <TextField
+            label="Confirm Password"
+            type={showPassword ? "text" : "password"}
+            variant="outlined"
+            fullWidth
+            error={!!confirmPasswordError} // Show error if there is a confirm password error
+            helperText={confirmPasswordError} // Show confirm password error message as helper text
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  onClick={handleShowPassword}
+                  edge="end"
+                  aria-label="toggle password visibility"
+                >
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                </IconButton>
+              ),
+            }}
+            onChange={handleConfirmPasswordChange}
+          />
+
           <Button
             variant="contained"
             color="primary"
@@ -122,6 +183,31 @@ const Register = () => {
             onClick={handleSignUp}
             className="!font-mono !font-bold !text-lg">
             Sign Up
+          </Button>
+          <div className="flex items-center justify-center font-mono font-semibold text-sm">
+            Sudah Memiliki Akun ? Silahkan<Link to="/login" className="ml-2 text-primary">Login</Link>
+          </div>
+          <Divider
+            sx={{
+              borderColor: 'black',  // Ubah warna jika perlu
+              width: '100%',
+              borderBottomWidth: 50,     // Tambah ketebalan garis
+              color: 'black',          // Ubah warna garis
+            }}
+            className='text-sm'
+          >
+            atau
+          </Divider>
+          {/* Google Sign Up button */}
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            startIcon={<GoogleIcon />} 
+            onClick={signUpWithGoogle}
+            className=" flex !font-bold !text-base"
+          >
+            Sign up dengan Google
           </Button>
         </div>
       </div>
