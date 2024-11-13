@@ -29,10 +29,10 @@ const Register = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log("User created successfully:", user);
+      console.log("User dibuat dengan sukses:", user);
       return user; // Return the authenticated user
     } catch (error) {
-      console.log("Error signing up:", error.message);
+      console.log("Gagal Sign Up:", error.message);
       throw new Error(error.message); // Throw an error to be caught in the calling function
     }
   };
@@ -44,9 +44,9 @@ const Register = () => {
         fullname,
         email,
       });
-      console.log("User data saved successfully in Firestore.");
+      console.log("Data user tersimpan dengan sukses di Firestore.");
     } catch (error) {
-      console.log("Error saving user data:", error.message);
+      console.log("Gagal menyimpan data user:", error.message);
     }
   };
 
@@ -64,7 +64,7 @@ const Register = () => {
       const user = await signUpUser(); // Get the authenticated user
       await createUserData(user); // Save user data to Firestore
     } catch (error) {
-      if (error.message.includes("auth/email-already-in-use")) {
+      if (error.message.includes("auth/email telah digunakan")) {
         setErrorMessage("Email telah digunakan. Mohon gunakan email lain.");
       } else {
         setErrorMessage("Terjadi kesalahan selama proses pendaftaran. Mohon dicoba lagi.");
@@ -79,7 +79,7 @@ const Register = () => {
 
     // Check if confirm password matches the original password
     if (value !== password) {
-      setConfirmPasswordError("Passwords do not match");
+      setConfirmPasswordError("Passwords tidak cocok");
     } else {
       setConfirmPasswordError(""); // Clear error if passwords match
     }
@@ -95,9 +95,9 @@ const Register = () => {
         fullname: user.displayName || "",
         email: user.email,
       });
-      console.log("User signed up with Google and data saved to Firestore.");
+      console.log("User terdaftar dengan Google Provider data tersimpan di Firestore.");
     } catch (error) {
-      console.log("Error signing up with Google:", error.message);
+      console.log("Gagal Sign Up dengan Google Provider:", error.message);
     }
   };
 
@@ -107,8 +107,8 @@ const Register = () => {
       {/* Blurred box behind the form */}
       <div className="relative bg-transparent p-6 rounded-3xl max-w-sm w-full space-y-8 backdrop-blur-lg bg-white shadow-2xl">
         {/* Welcome message */}
-        <div className="font-mono space-y-2">
-          <h2 className="text-2xl font-bold">Selamat Datang Kembali</h2>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold">Selamat Datang!</h2>
           <h2 className="text-sm">Mohon isi data anda dengan lengkap</h2>
         </div>
         
@@ -182,10 +182,10 @@ const Register = () => {
             color="primary"
             fullWidth
             onClick={handleSignUp}
-            className="!font-mono !font-bold !text-lg">
+            className="!font-bold !text-lg">
             Sign Up
           </Button>
-          <div className="flex items-center justify-center font-mono font-semibold text-sm">
+          <div className="flex items-center justify-center font-semibold text-sm">
             Sudah Memiliki Akun ? Silahkan<Link to="/login" className="ml-2 text-primary">Login</Link>
           </div>
           <Divider

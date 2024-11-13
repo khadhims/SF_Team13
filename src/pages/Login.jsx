@@ -45,9 +45,9 @@ export const Login = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      console.log("User signed up with Google and data saved to Firestore.", user);
+      console.log("User Sign In dengan Google Provider dan data tersimpan di Firestore.", user);
     } catch (error) {
-      console.log("Error signing up with Google:", error.message);
+      console.log("Gagal Sign In dengan Google Provider:", error.message);
     }
   };
 
@@ -57,7 +57,7 @@ export const Login = () => {
       {/* Blurred box behind the form */}
       <div className="relative bg-transparent p-6 rounded-3xl max-w-sm w-full space-y-8 backdrop-blur-lg bg-white shadow-2xl">
         {/* Welcome message */}
-        <div className="font-mono space-y-2">
+        <div className="space-y-2">
           <h2 className="text-2xl font-bold">Selamat Datang Kembali</h2>
           <h2 className="text-sm">Mohon untuk sign in terlebih dahulu</h2>
         </div>
@@ -107,13 +107,13 @@ export const Login = () => {
             variant="contained" 
             color="primary" 
             fullWidth 
-            className="!font-mono !font-bold !text-lg"
+            className="!font-bold !text-lg"
             onClick={handleLogin}
           >
             Login
           </Button>
-          <div className="flex items-center justify-center font-mono font-semibold text-sm">
-            Belum Memiliki Akun ? Silahkan<Link to="/register" className="ml-2 text-primary">Register</Link>
+          <div className="flex items-center justify-center font-semibold text-sm">
+            Belum Memiliki Akun ? Silahkan<Link to="/register" className="ml-1 text-primary">Register</Link>
           </div>
           <Divider
             sx={{
@@ -133,7 +133,7 @@ export const Login = () => {
             fullWidth
             startIcon={<GoogleIcon />} 
             onClick={signInWithGoogle}
-            className=" flex !font-bold !text-base"
+            className="flex !font-bold !text-base"
           >
             Sign In dengan Google
           </Button>
