@@ -1,12 +1,12 @@
+import GoogleIcon from "@mui/icons-material/Google";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Button, Divider, IconButton, TextField } from "@mui/material";
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from "../firebase-config";
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import GoogleIcon from "@mui/icons-material/Google";
 import Navbar from '../components/Navbar';
+import { auth, googleProvider } from "../firebase-config";
 
 export const Login = () => {
   const navigate = useNavigate();

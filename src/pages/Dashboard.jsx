@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { BsArrowLeftShort, BsSearch } from "react-icons/bs";
 import { FaBus } from "react-icons/fa";
-import { IoHomeSharp } from "react-icons/io5";
-import { RiAddCircleFill } from "react-icons/ri";
-import { RiFileListFill } from "react-icons/ri";
+import { IoHomeSharp, IoLogOutSharp } from "react-icons/io5";
 import { MdFeedback } from "react-icons/md";
-import { IoLogOutSharp } from "react-icons/io5";
+import { RiAddCircleFill, RiFileListFill } from "react-icons/ri";
 import LogoB from "../assets/LogoB.png";
 
 const Dashboard = () => {
@@ -110,7 +108,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="bg-white p-4 rounded-b-lg">
-          <ol className="list-decimal list-inside space-y-2">
+          <ol className="list-decimal list-inside space-y-2 justify-normal">
             <li>
               Anda dapat melihat daftar jadwal dengan mengklik &quot;New Booking&quot;.
               Sistem akan menampilkan daftar jadwal yang tersedia untuk Anda
