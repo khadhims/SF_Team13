@@ -21,10 +21,16 @@ const Register = () => {
 
   // For Toggle visibility password
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   //Toggle untuk password
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const handleShowConfirmPassword = () => {
+    setShowConfirmPassword((prev) => !prev);
   };
 
   const signUpUser = async () => {
@@ -73,6 +79,17 @@ const Register = () => {
         setErrorMessage("Terjadi kesalahan selama proses pendaftaran. Mohon dicoba lagi.");
       }
       console.log("Terjadi kesalahan selama proses pendaftaran: ", error.message);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+  
+    if (confirmPassword && value !== confirmPassword) {
+      setConfirmPasswordError("Passwords tidak cocok");
+    } else {
+      setConfirmPasswordError(""); // Clear error if passwords match
     }
   };
 
@@ -156,12 +173,12 @@ const Register = () => {
                 </IconButton>
               ),
             }}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
           />
 
           <TextField
             label="Confirm Password"
-            type={showPassword ? "text" : "password"}
+            type={showConfirmPassword ? "text" : "password"}
             variant="outlined"
             value={confirmPassword}
             fullWidth
@@ -170,11 +187,11 @@ const Register = () => {
             InputProps={{
               endAdornment: (
                 <IconButton
-                  onClick={handleShowPassword}
+                  onClick={handleShowConfirmPassword}
                   edge="end"
                   aria-label="toggle password visibility"
                 >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </IconButton>
               ),
             }}

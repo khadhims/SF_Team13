@@ -8,7 +8,7 @@ import { MdFeedback } from "react-icons/md";
 import { IoLogOutSharp } from "react-icons/io5";
 import LogoB from "../assets/LogoB.png";
 
-const App = () => {
+const Dashboard = () => {
   const [open, setOpen] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
@@ -105,14 +105,14 @@ const App = () => {
 
         {/* Panduan Membeli Tiket */}
         <div className="mt-6 shadow-lg border border-gray-300 rounded-lg">
-          <div className="bg-blue-500 text-white font-bold py-4 px-4 rounded-t-lg">
+          <div className="bg-primary text-white font-bold py-4 px-4 rounded-t-lg">
             === PERHATIAN ===
           </div>
         </div>
         <div className="bg-white p-4 rounded-b-lg">
           <ol className="list-decimal list-inside space-y-2">
             <li>
-              Anda dapat melihat daftar jadwal dengan mengklik "New Booking".
+              Anda dapat melihat daftar jadwal dengan mengklik &quot;New Booking&quot;.
               Sistem akan menampilkan daftar jadwal yang tersedia untuk Anda
               yang dapat dilihat dan dipesan.
             </li>
@@ -126,7 +126,7 @@ const App = () => {
             </li>
             <li>
               Anda dapat melihat semua riwayat pemesanan Anda dengan mengklik
-              "View Booking" dan memberikan Feedback.
+              &quot;View Booking&quot; dan memberikan Feedback.
             </li>
           </ol>
         </div>
@@ -135,4 +135,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Dashboard;

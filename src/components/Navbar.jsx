@@ -40,9 +40,12 @@ const Navbar = () => {
         <button><li className="text-lg font-semibold"><Link to={'/register'}>Register</Link></li></button>
         <button><li className="text-lg font-semibold"><Link to={'/login'}>Login</Link></li></button>
         <li>
-          <button className="bg-primary text-white py-3 px-6 text-lg font-bold rounded-full hover:bg-blue-400">
-            Admin Portal
-          </button>
+          <Link to="/dashboard">
+            <button className="bg-primary text-white py-3 px-6 text-lg font-bold rounded-full hover:bg-blue-400">
+              Admin Portal
+            </button>
+          </Link>
+          
         </li>
       </ul>
     </nav>
