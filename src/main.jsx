@@ -6,11 +6,16 @@ import Register from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/aboutus",
     element: <AboutUs />,
+  },
+  {
+    path: "/contactus",
+    element: <ContactUs />,
   },
   {
     path: "/register",
