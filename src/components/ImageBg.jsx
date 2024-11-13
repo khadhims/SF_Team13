@@ -20,8 +20,8 @@ const ImageBg = () => {
 
   return (
     <div
-      className={`h-screen flex items-center justify-center transition-colors duration-500 ${
-        isScrolled ? "bg-white" : "bg-cover bg-center"
+      className={`h-screen bg-fixed flex items-center justify-center transition-colors duration-500 ${
+        isScrolled ? "bg-white" : "bg-cover bg-center bg-opacity-30"
       }`}
       style={{ backgroundImage: !isScrolled ? `url(${bgImage})` : "none" }}
     >
@@ -32,7 +32,7 @@ const ImageBg = () => {
           dan mudah untuk pemesanan tiket kereta api. Cukup beberapa klik, dan
           tiket Anda siap tanpa perlu antre di loket!
         </p>
-        <button className="bg-blue-500 text-white py-3 px-6 rounded-full hover:bg-blue-600">
+        <button className="bg-primary text-white py-3 px-6 rounded-full hover:bg-blue-400">
           Pesan Sekarang
         </button>
       </div>

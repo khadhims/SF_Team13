@@ -5,10 +5,12 @@ import { Button, Divider, IconButton, TextField } from "@mui/material";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth, db, googleProvider } from "../firebase-config";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   // For Auth
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -37,7 +39,7 @@ const Register = () => {
     }
   };
 
-  // Function to create user data in Firestore
+  // Membuat data user di Firestore ketika Sign Up
   const createUserData = async (user) => {
     try {
       await setDoc(doc(db, "users", user.uid), {
@@ -50,7 +52,7 @@ const Register = () => {
     }
   };
 
-  // Function to handle the whole sign-up process
+  // Function buat mengurus Sign Up secara keseluruhan
   const handleSignUp = async () => {
     setErrorMessage("");
     setConfirmPasswordError("");
@@ -63,6 +65,7 @@ const Register = () => {
     try {
       const user = await signUpUser(); // Get the authenticated user
       await createUserData(user); // Save user data to Firestore
+      navigate("/login");
     } catch (error) {
       if (error.message.includes("auth/email telah digunakan")) {
         setErrorMessage("Email telah digunakan. Mohon gunakan email lain.");
@@ -96,6 +99,7 @@ const Register = () => {
         email: user.email,
       });
       console.log("User terdaftar dengan Google Provider data tersimpan di Firestore.");
+      navigate("/login");
     } catch (error) {
       console.log("Gagal Sign Up dengan Google Provider:", error.message);
     }
@@ -182,7 +186,7 @@ const Register = () => {
             color="primary"
             fullWidth
             onClick={handleSignUp}
-            className="!font-bold !text-lg">
+            className="!font-bold !text-lg !shadow-lg !shadow-primary/50">
             Sign Up
           </Button>
           <div className="flex items-center justify-center font-semibold text-sm">
@@ -206,7 +210,7 @@ const Register = () => {
             fullWidth
             startIcon={<GoogleIcon />} 
             onClick={signUpWithGoogle}
-            className=" flex !font-bold !text-base"
+            className=" flex !font-bold !text-base !shadow-lg !shadow-primary/50"
           >
             Sign up dengan Google
           </Button>

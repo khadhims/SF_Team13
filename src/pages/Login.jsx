@@ -4,10 +4,13 @@ import { Button, Divider, IconButton, TextField } from "@mui/material";
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from "../firebase-config";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GoogleIcon from "@mui/icons-material/Google";
+import Navbar from '../components/Navbar';
 
 export const Login = () => {
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -26,12 +29,13 @@ export const Login = () => {
     if (!email || !password) {
       setErrorMessage("Email dan password harus diisi");
       return;
-    }
+    } 
 
     try {
       // Login menggunakan Firebase Authentication
       await signInWithEmailAndPassword(auth, email, password);
       alert('Login Berhasil');
+      navigate("/");
       // Redirect ke halaman lain setelah login sukses (jika diperlukan)
     } catch (e) {
       // Menangani error login dan menampilkan pesan error yang lebih spesifik
@@ -46,6 +50,7 @@ export const Login = () => {
       const user = result.user;
 
       console.log("User Sign In dengan Google Provider dan data tersimpan di Firestore.", user);
+      navigate("/");
     } catch (error) {
       console.log("Gagal Sign In dengan Google Provider:", error.message);
     }
@@ -53,9 +58,10 @@ export const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary relative">
+      <Navbar />
       {/* Full screen white background (optional) */}
       {/* Blurred box behind the form */}
-      <div className="relative bg-transparent p-6 rounded-3xl max-w-sm w-full space-y-8 backdrop-blur-lg bg-white shadow-2xl">
+      <div className="relative p-6 rounded-3xl max-w-sm w-full space-y-8 backdrop-blur-sm bg-white shadow-2xl">
         {/* Welcome message */}
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">Selamat Datang Kembali</h2>
@@ -107,7 +113,7 @@ export const Login = () => {
             variant="contained" 
             color="primary" 
             fullWidth 
-            className="!font-bold !text-lg"
+            className="!font-bold !text-lg !shadow-lg !shadow-primary/50"
             onClick={handleLogin}
           >
             Login
@@ -133,7 +139,7 @@ export const Login = () => {
             fullWidth
             startIcon={<GoogleIcon />} 
             onClick={signInWithGoogle}
-            className="flex !font-bold !text-base"
+            className="flex !font-bold !text-base !shadow-lg !shadow-primary/50"
           >
             Sign In dengan Google
           </Button>
