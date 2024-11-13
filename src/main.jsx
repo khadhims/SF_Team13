@@ -7,6 +7,7 @@ import { Login } from "./pages/Login.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
   },
 ]);
 
